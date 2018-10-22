@@ -36,9 +36,8 @@ if(WIN32)
     set(_TARGET_ARCHITECTURE "" CACHE INTERNAL "")
   endif(${CMAKE_SIZEOF_VOID_P} EQUAL 8)
 else(WIN32) # Linux
-  # Search catkin
-  find_package(catkin QUIET)
-  if(catkin_FOUND)
+  if(CATKIN_DEVEL_PREFIX OR catkin_FOUND)
+    find_package(catkin REQUIRED)
     option  (_USE_CATKIN "Use catkin for installation" ON)
     if(_USE_CATKIN)
     catkin_package(
@@ -47,10 +46,7 @@ else(WIN32) # Linux
     )
     message (STATUS "_USE_CATKIN=${_USE_CATKIN}")
     endif(_USE_CATKIN)
-  else(catkin_FOUND)
-    message(STATUS "catkin was not found. Build without catkin.")
-  endif(catkin_FOUND)
-
+  endif(CATKIN_DEVEL_PREFIX OR catkin_FOUND)
 endif(WIN32)
 
 # Use visual studio
